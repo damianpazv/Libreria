@@ -5,14 +5,21 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
 
 export const ModalCobrar = ({ cerrarModal,total }) => {
 
+  const [pagoCliente, setpagoCliente] = useState(0);
 
 const pago=100
 const cambio=pago-total
 
+const handleChange = (event) => {
+  let valorSeleccionado =parseFloat(event.target.value,10) ;
+  setpagoCliente(valorSeleccionado);
 
+
+};
     return (
        
 <Modal   show={true} >
@@ -21,9 +28,20 @@ const cambio=pago-total
         </Modal.Header>
         <Modal.Body>Total a cobrar : $ {total}  
         <br />
-        pagó con : $ {pago}
+       
+        <Form>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"  onChange={handleChange} value={pagoCliente}>
+        <Form.Label> pagó con : $ </Form.Label>
+        <Form.Control type="number" placeholder="100" />
+      </Form.Group>
+    </Form>
+
+
+
+
+
         <br />
-        su cambio : $ {cambio}
+        su cambio : $ {pagoCliente-total}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={cerrarModal}>
