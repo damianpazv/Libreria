@@ -12,10 +12,23 @@ import Form from 'react-bootstrap/Form';
 import  { useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { NavbarMain } from './NavbarMain';
+import { ModalEditarProducto } from './ModalEditarProducto';
 
 export const Productos = () => {
 
    // const [cargarProductos, setcargarProductos] = useState([]);
+   const [modalAbierto, setModalAbierto] = useState(false);
+
+
+
+   const  [formDataEdit,setFormDataEdit ]= useState({
+    name:"",
+    price: "",
+    description:"",
+})
+
+const abrirModal = () => setModalAbierto(true);
+const cerrarModal=() => setModalAbierto(false)
 
     const productos = [
         { _id: 1, nombre: 'Producto A', precio: 10.99, cantidad: 20 },
@@ -27,6 +40,12 @@ export const Productos = () => {
 
      // setcargarProductos(productos);
 
+     const editarProductoClick = (producto) => {
+      abrirModal();
+        setFormDataEdit(producto);
+      
+      }
+      
 
   return (
     <div>
@@ -69,7 +88,7 @@ return(
 
 
 
-
+{modalAbierto && <ModalEditarProducto  datosProducto={formDataEdit}  cerrarModal={cerrarModal}    />}
 
 
 

@@ -22,8 +22,8 @@ const handleChange = (event) => {
 };
     return (
        
-<Modal   show={true} >
-        <Modal.Header >
+<Modal   show={true} onHide={cerrarModal}>
+        <Modal.Header closeButton >
           <Modal.Title>Cobrar</Modal.Title>
         </Modal.Header>
         <Modal.Body>Total a cobrar : $ {total}  
@@ -35,10 +35,6 @@ const handleChange = (event) => {
         <Form.Control type="number" placeholder="100" />
       </Form.Group>
     </Form>
-
-
-
-
 
         <br />
         su cambio : $ {pagoCliente-total}
@@ -52,9 +48,6 @@ const handleChange = (event) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
 
       );
 }
