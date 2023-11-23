@@ -12,61 +12,68 @@ export const ModalEditarProducto = ({datosProducto,cerrarModal}) => {
   const abrirModal1 = () => setModalAbierto(true);
 const cerrarModal1=() => setModalAbierto(false)
 
+    const  [formDataEdit,setFormDataEdit ]= useState(datosProducto)
 
-    // const  [formDataEdit,setFormDataEdit ]= useState({
-    //     name:"",
-    //     price: "",
-    //     description:"",
-    // })
+const handleChangeEdit = (e) => {
 
-// const handleChangeEdit = (e) => {
+setFormDataEdit({
+    ...formDataEdit,
+    [e.target.name]: e.target.value,
+});
 
-// setFormDataEdit({
-//     ...formDataEdit,
-//     [e.target.name]: e.target.value,
-// });
-
-// }
+}
 
 const handleSubmitEdit = (e) => {
     e.preventDefault();
-    console.log("hola")
-
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Your work has been saved",
-      showConfirmButton: false,
-      timer: 1500
-    });
-    cerrarModal()
-    
-    //cerrarModal
-    // const {_id,name,price,description}=formDataEdit
+     const {_id,nombre,precio,cantidad}=formDataEdit
 
     //validaciones....
 
-//     if(name.trim()===""|| price===""|| description.trim()==="")
-// {
-//     Swal.fire({
-//         icon: 'error',
-//         title: 'Oops...',
-//         text: 'Todos los campos son obligatorios',
+    if(nombre.trim()===""|| precio===""|| cantidad==="")
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Todos los campos son obligatorios',
         
-//       })
-// }
+      })
+      cerrarModal()
+      return; 
+}
 
-// else if(price<0)
-// {
-//     Swal.fire({
-//         icon: 'error',
-//         title: 'Oops...',
-//         text: 'el precio no puede ser negativo',
+else if(precio<0)
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'el precio no puede ser negativo',
         
-//       })
-// }
+      })
+      cerrarModal()
+      return; 
+}
+else if(cantidad<0)
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'la cantidad no puede ser negativa',
+        
+      })
+      cerrarModal()
+      return; 
+}
 
+console.log(formDataEdit)
 
+Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Producto editado con éxito",
+  showConfirmButton: false,
+  timer: 1500
+});
+cerrarModal()
     
   //  EditarProductsDB(_id,name,price,description)
     
@@ -90,11 +97,6 @@ const handleSubmitEdit = (e) => {
   return (
 
     <div>
-
-{/* <Button variant="primary" onClick={handleShowEdit} >
-        <h5>e</h5>
-      </Button> */}
-
       <Modal show={modalAbierto} onHide={cerrarModal} >
         <Modal.Header closeButton>
           <Modal.Title>Editar Producto</Modal.Title>
@@ -102,44 +104,41 @@ const handleSubmitEdit = (e) => {
         <Modal.Body>
           <Form onSubmit={handleSubmitEdit}>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="FormEditar.ControlInput1">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
               maxLength={20}
-                type="text"
-                
-                name='name'
-                 value={datosProducto.nombre}
+                type="text"             
+                name='nombre'
+                 value={formDataEdit.nombre}
                 autoFocus
-                //onChange={handleChangeEdit}
+                onChange={handleChangeEdit}
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+            <Form.Group className="mb-3" controlId="FormEditar.ControlInput2">
               <Form.Label>Precio</Form.Label>
               <Form.Control
               
-                type="number"
-                
-                name='price'
-                value={datosProducto.precio}
-                //onChange={handleChangeEdit}
+                type="number"    
+                name='precio'
+                value={formDataEdit.precio}
+                onChange={handleChangeEdit}
                 
               />
             </Form.Group>
 
-
-
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
+              controlId="FormEditar.ControlInput3"
             >
-              <Form.Label>Descripcion</Form.Label>
-              <Form.Control as="textarea" rows={3} 
-              name='description' 
-              value={datosProducto.cantidad}
-             //onChange={handleChangeEdit}
-              maxLength={50}
+              <Form.Label>Cantidad</Form.Label>
+              <Form.Control 
+              name='cantidad' 
+              value={formDataEdit.cantidad}
+              type="number"
+             onChange={handleChangeEdit}
+              
               />
               
             </Form.Group>
@@ -152,20 +151,11 @@ const handleSubmitEdit = (e) => {
          
           </Form>
         </Modal.Body>
-
-
-        <Modal.Footer>
-       
-       
-          
-        
+        <Modal.Footer>       
         </Modal.Footer>
       </Modal>
 
-
-
     </div>
   )
-
 
 }

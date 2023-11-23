@@ -18,9 +18,6 @@ export const Productos = () => {
 
    // const [cargarProductos, setcargarProductos] = useState([]);
    const [modalAbierto, setModalAbierto] = useState(false);
-
-
-
    const  [formDataEdit,setFormDataEdit ]= useState({
     name:"",
     price: "",
@@ -46,8 +43,25 @@ const cerrarModal=() => setModalAbierto(false)
       
       }
       
+      // const eliminarProductsDB = async(id) => {
+      //   try{
+      //     const resp=await pruebaApi.delete(`/admin/eliminar/${id}`);
+      //     console.log(resp);
+          
+      // }
+    
+      // catch(error)
+      // {
+      // console.log(error);
+      // if(error.response.status===401){
+      //   localStorage.removeItem("token");
+      //   navigate("/login");
+      // }
+      // }
+      // };
 
-  return (
+
+      return (
     <div>
         <NavbarMain/>
 

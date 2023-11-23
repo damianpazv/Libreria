@@ -17,7 +17,7 @@ export const NavbarMain = () => {
    
     <Navbar expand="lg"  bg="primary" data-bs-theme="dark">
     <Container className='mb-1'>
-      <Navbar.Brand className='me-5' href="/"><h1>SIGECO</h1><h5>sistema de gestion comecial</h5></Navbar.Brand>
+      <Navbar.Brand className='me-5' href="/"><h2>SIGECO</h2><h6>sistema de gestion comecial</h6></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-2">
