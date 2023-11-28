@@ -103,9 +103,7 @@ const cerrarModalAP=() => setModalAbiertoAP(false)
         placeholder="Buscar por nombre o id"
         value={searchTerm}
         onChange={handleSearch}
-        onKeyDown={handleSearch}
-        
-      />
+        onKeyDown={handleSearch}/>
 
 <Table striped bordered hover className='m-3'>
       <thead>

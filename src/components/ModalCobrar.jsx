@@ -6,13 +6,33 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import Swal from 'sweetalert2'
 
-export const ModalCobrar = ({ cerrarModal,total }) => {
+export const ModalCobrar = ({ cerrarModal,Total,productos }) => {
 
   const [pagoCliente, setpagoCliente] = useState(0);
 
-const pago=100
-const cambio=pago-total
+const crearVenta=()=>{
+  const productosConCantidad = productos.map(producto => ({
+    nombre: producto.nombre,
+    cantidad: producto.cantidad
+  }));
+const venta={detalle:productosConCantidad,total:Total,fecha: new Date().toLocaleString()};
+console.log(venta);
+
+
+Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "venta realizada con éxito",
+  showConfirmButton: false,
+  timer: 1500
+});
+
+cerrarModal();
+
+}
+
 
 const handleChange = (event) => {
   let valorSeleccionado =parseFloat(event.target.value,10) ;
@@ -26,7 +46,7 @@ const handleChange = (event) => {
         <Modal.Header closeButton >
           <Modal.Title>Cobrar</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Total a cobrar : $ {total}  
+        <Modal.Body>Total a cobrar : $ {Total}  
         <br />
        
         <Form>
@@ -37,13 +57,13 @@ const handleChange = (event) => {
     </Form>
 
         <br />
-        su cambio : $ {pagoCliente-total}
+        su cambio : $ {pagoCliente-Total}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={cerrarModal}>
            Cancelar
           </Button>
-          <Button variant="primary" onClick={cerrarModal}>
+          <Button variant="primary" onClick={crearVenta}>
             Cobrar
           </Button>
         </Modal.Footer>

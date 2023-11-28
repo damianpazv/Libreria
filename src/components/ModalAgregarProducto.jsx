@@ -71,7 +71,7 @@ console.log(formData)
 Swal.fire({
   position: "center",
   icon: "success",
-  title: "Producto editado con éxito",
+  title: "Producto agregado con éxito",
   showConfirmButton: false,
   timer: 1500
 });
