@@ -81,22 +81,66 @@ const [searchTerm, setSearchTerm] = useState('');
       
 
     }
-   
+
+    const disminuirCantidad=(id)=>{
+        
+      const nuevoCarrito = carrito.map(producto => {
+        if (producto._id === id) {
+          const nuevaCantidad=producto.cantidad -1;
+           
+          
+          return { ...producto, cantidad: nuevaCantidad }
+          ;
+        }
+        return producto
+        
+    })
+    console.log(nuevoCarrito)
+    setCarrito(nuevoCarrito);
+    
+    return nuevoCarrito;
+  
+    
+    
+
+  }
+
+ const eliminarProducto =(id)=>{
+
+  const nuevoCarrito = carrito.filter(producto => {
+    return producto._id !== id;
+  });
+    
+    
+
+console.log(nuevoCarrito)
+setCarrito(nuevoCarrito);
+
+return nuevoCarrito;
+
+
+
+ }
+
     return(
     <div>
 
 
-    <Container className='mt-4' >
+    <Container className='mt-3' >
       <Row>
-      <input className='ms-2'
+        <Col>
+        <input className='mb-2'
         type="text"
         placeholder="Buscar por nombre o id"
         value={searchTerm}
         onChange={handleSearch}
         onKeyDown={handleSearch}/>
+        </Col>
+      
 
 
       </Row>
+
       <Row>
         <Col >
         
@@ -108,6 +152,7 @@ const [searchTerm, setSearchTerm] = useState('');
           <th>Nombre</th>
           <th>Precio</th>
           <th>Cantidad</th>
+          <th>Eliminar</th>
         </tr>
       </thead>
       <tbody>
@@ -117,8 +162,10 @@ const [searchTerm, setSearchTerm] = useState('');
             <td>{producto._id}</td>
             <td>{producto.nombre}</td>
             <td>{producto.precio}</td>
-            <td><Button className='me-3 btn btn-block' onClick={()=> aumentarCantidad(producto.cantidad)} variant='info'>-</Button > {producto.cantidad} <Button className='ms-3 btn btn-block' onClick={()=> aumentarCantidad(producto._id)} variant='info'>+</Button > </td>
-            
+            <td><Button className='me-3 btn btn-block' onClick={()=> disminuirCantidad(producto._id)} variant='info'>-</Button > {producto.cantidad} <Button className='ms-3 btn btn-block' onClick={()=> aumentarCantidad(producto._id)} variant='info'>+</Button > 
+           
+            </td>
+            <td> <Button onClick={()=> eliminarProducto(producto._id)} variant='danger'>Eliminar</Button ></td>
           </tr>
         )})}
       </tbody>
@@ -130,7 +177,7 @@ const [searchTerm, setSearchTerm] = useState('');
        
       </Row>
 
-  <Row>
+      <Row>
         <Col >
         <Button variant="warning"  onClick={abrirModal}><h3>Cobrar</h3></Button>
          </Col>
@@ -153,6 +200,7 @@ const [searchTerm, setSearchTerm] = useState('');
         </Col>
        
       </Row>
+      
     </Container>
 
 
