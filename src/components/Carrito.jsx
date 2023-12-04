@@ -48,6 +48,7 @@ const [searchTerm, setSearchTerm] = useState('');
               product._id.toString().includes(searchTerm)
           );
           productoFiltrado[0].cantidad=1
+          productoFiltrado[0].importe= productoFiltrado[0].precio
           console.log(productoFiltrado)
           setCarrito((prevCarrito) => [...prevCarrito,...productoFiltrado]);
          
@@ -64,9 +65,11 @@ const [searchTerm, setSearchTerm] = useState('');
         const nuevoCarrito = carrito.map(producto => {
           if (producto._id === id) {
             const nuevaCantidad=producto.cantidad +1;
+            const nuevoImporte=  nuevaCantidad*producto.precio;
+            const importeLimit=parseFloat(nuevoImporte.toFixed(2));
              
             
-            return { ...producto, cantidad: nuevaCantidad }
+            return { ...producto, cantidad: nuevaCantidad, importe:importeLimit }
             ;
           }
           return producto
@@ -87,9 +90,11 @@ const [searchTerm, setSearchTerm] = useState('');
       const nuevoCarrito = carrito.map(producto => {
         if (producto._id === id) {
           const nuevaCantidad=producto.cantidad -1;
+          const nuevoImporte=nuevaCantidad*producto.precio;
+          const importeLimit=parseFloat(nuevoImporte.toFixed(2));
            
           
-          return { ...producto, cantidad: nuevaCantidad }
+          return { ...producto, cantidad: nuevaCantidad ,importe:importeLimit}
           ;
         }
         return producto
@@ -150,8 +155,9 @@ return nuevoCarrito;
         <tr className='text-center'>
           <th>Código de Barras</th>
           <th>Nombre</th>
-          <th>Precio</th>
+          <th>Precio Unit</th>
           <th>Cantidad</th>
+          <th>Importe</th>
           <th>Eliminar</th>
         </tr>
       </thead>
@@ -165,6 +171,7 @@ return nuevoCarrito;
             <td><Button className='me-3 btn btn-block' onClick={()=> disminuirCantidad(producto._id)} variant='info'>-</Button > {producto.cantidad} <Button className='ms-3 btn btn-block' onClick={()=> aumentarCantidad(producto._id)} variant='info'>+</Button > 
            
             </td>
+            <td>{producto.importe}</td>
             <td> <Button onClick={()=> eliminarProducto(producto._id)} variant='danger'>Eliminar</Button ></td>
           </tr>
         )})}
