@@ -21,9 +21,9 @@ export const NavbarMain = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-2">
-        <NavLink className="m-3  text-decoration-none text-light" to="/"><h5>CAJA</h5></NavLink>
+        <NavLink className="m-3  text-decoration-none text-light" to="/home"><h5>CAJA</h5></NavLink>
           <NavLink className="m-3  text-decoration-none text-light" to="/productos"><h5>PRODUCTOS</h5></NavLink>
-          <NavLink className="m-3  text-decoration-none text-light" to="/productos"><h5>VENTAS</h5></NavLink>
+          <NavLink className="m-3  text-decoration-none text-light" to="/ventas"><h5>VENTAS</h5></NavLink>
      
         </Nav>
       </Navbar.Collapse>

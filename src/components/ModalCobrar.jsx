@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2'
+import sigecoApi from '../api/sigecoAPI';
 
 export const ModalCobrar = ({ cerrarModal,Total,productos }) => {
 
@@ -20,19 +21,34 @@ const crearVenta=()=>{
 const venta={detalle:productosConCantidad,total:Total,fecha: new Date().toLocaleString()};
 console.log(venta);
 
+AgregarVentaDB(venta)
 
-Swal.fire({
-  position: "center",
-  icon: "success",
-  title: "venta realizada con éxito",
-  showConfirmButton: false,
-  timer: 1500
-});
+
 
 cerrarModal();
 
 }
 
+const AgregarVentaDB= async (venta) =>
+{
+
+    try{
+        const resp=await sigecoApi.post("/api/ventas",venta);
+        
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "venta realizada con éxito",
+          showConfirmButton: false,
+          timer: 1500
+        });
+    }
+
+    catch(error)
+    {
+    console.log(error);
+    }
+}
 
 const handleChange = (event) => {
   let valorSeleccionado =parseFloat(event.target.value,10) ;

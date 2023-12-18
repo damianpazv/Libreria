@@ -7,26 +7,35 @@ import Button from 'react-bootstrap/Button';
 import { ModalCobrar } from '../components/ModalCobrar';
 import  { useState } from 'react'
 import Form from 'react-bootstrap/Form';
+import sigecoApi from '../api/sigecoAPI';
 
 export const Carrito = () => {
 
   const [modalAbierto, setModalAbierto] = useState(false);
   const [descuentoSeleccionado, setdescuentoSeleccionado] = useState(0);
   const [carrito, setCarrito] = useState([]);
+  const [productos, setProductos] = useState([]);
 
 const [searchTerm, setSearchTerm] = useState('');
      
   const abrirModal = () => setModalAbierto(true);
   const cerrarModal=() => setModalAbierto(false)
   
-
-  const productos = [
-    { _id: '11111', nombre: 'Libro de Matemáticas', precio: 20.99, cantidad: 10 },
-    { _id: '22222', nombre: 'Cuaderno de Dibujo', precio: 8.99, cantidad: 15 },
-    { _id: '33333', nombre: 'Pluma de Gel', precio: 2.50, cantidad: 50 },
-    { _id: '44444', nombre: 'Bloc de Notas', precio: 5.75, cantidad: 20 },
-    { _id: '55555', nombre: 'Set de Lápices de Colores', precio: 12.49, cantidad: 30 },
-  ];
+  const productosDB= async()=>{ try {
+    const resp = await sigecoApi.get("/api/productos")
+    setProductos(resp.data.productos);
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+  // const productos = [
+  //   { _id: '11111', nombre: 'Libro de Matemáticas', precio: 20.99, cantidad: 10 },
+  //   { _id: '22222', nombre: 'Cuaderno de Dibujo', precio: 8.99, cantidad: 15 },
+  //   { _id: '33333', nombre: 'Pluma de Gel', precio: 2.50, cantidad: 50 },
+  //   { _id: '44444', nombre: 'Bloc de Notas', precio: 5.75, cantidad: 20 },
+  //   { _id: '55555', nombre: 'Set de Lápices de Colores', precio: 12.49, cantidad: 30 },
+  // ];
 
       const subtotal = carrito.reduce((acumulador, producto) => acumulador + producto.precio * producto.cantidad, 0);
       const total=subtotal-subtotal*descuentoSeleccionado/100;
@@ -40,16 +49,17 @@ const [searchTerm, setSearchTerm] = useState('');
      const handleSearch = (event) => {
         if (event.key === 'Enter')
         {
-          
+          productosDB();
           setSearchTerm(event.target.value);
           const productoFiltrado = productos.filter(
             (product) =>
               product.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              product._id.toString().includes(searchTerm)
+              product.codigo.toString().includes(searchTerm)
           );
-          productoFiltrado[0].cantidad=1
-          productoFiltrado[0].importe= productoFiltrado[0].precio
           console.log(productoFiltrado)
+          productoFiltrado[0].cantidad=1;
+          productoFiltrado[0].importe= productoFiltrado[0].precio;
+         
           setCarrito((prevCarrito) => [...prevCarrito,...productoFiltrado]);
          
 
@@ -165,7 +175,7 @@ return nuevoCarrito;
         {carrito.map((producto) =>{
            return(
           <tr className='text-center' key={producto._id}>
-            <td>{producto._id}</td>
+            <td>{producto.codigo}</td>
             <td>{producto.nombre}</td>
             <td>{producto.precio}</td>
             <td><Button className='me-3 btn btn-block' onClick={()=> disminuirCantidad(producto._id)} variant='info'>-</Button > {producto.cantidad} <Button className='ms-3 btn btn-block' onClick={()=> aumentarCantidad(producto._id)} variant='info'>+</Button > 

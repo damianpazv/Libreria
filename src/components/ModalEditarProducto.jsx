@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-//import pruebaApi from '../api/prueba';
 import Swal from 'sweetalert2'
+import sigecoApi from '../api/sigecoAPI';
 
 export const ModalEditarProducto = ({datosProducto,cerrarModal}) => {
 
@@ -25,11 +25,11 @@ setFormDataEdit({
 
 const handleSubmitEdit = (e) => {
     e.preventDefault();
-     const {_id,nombre,precio,cantidad}=formDataEdit
+     const {_id,codigo,nombre,precio,cantidad}=formDataEdit
 
     //validaciones....
 
-    if(nombre.trim()===""|| precio===""|| cantidad==="")
+    if(nombre.trim()===""|| precio===""|| cantidad==="" || codigo==="")
 {
     Swal.fire({
         icon: 'error',
@@ -64,35 +64,35 @@ else if(cantidad<0)
       return; 
 }
 
-console.log(formDataEdit)
+EditarProductoDB(_id,codigo,nombre,precio,cantidad);
 
-Swal.fire({
-  position: "center",
-  icon: "success",
-  title: "Producto editado con éxito",
-  showConfirmButton: false,
-  timer: 1500
-});
+
 cerrarModal()
     
-  //  EditarProductsDB(_id,name,price,description)
+
     
     };
 
-// const EditarProductsDB= async (_id,name,price,description) =>
-// {
+const EditarProductoDB= async (_id,codigo,nombre,precio,cantidad) =>
+{
 
-//     try{
-//         const resp=await pruebaApi.put("/admin/editar",{_id,name,price,description});
-//         console.log(resp);
+    try{
+        const resp=await sigecoApi.put("/api/productos",{_id,codigo,nombre,precio,cantidad});
+        //console.log(resp);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Producto editado con éxito",
+          showConfirmButton: false,
+          timer: 1500
+        });
+    }
 
-//     }
-
-//     catch(error)
-//     {
-//     console.log(error);
-//     }
-// }
+    catch(error)
+    {
+    console.log(error);
+    }
+}
 
   return (
 
@@ -103,6 +103,17 @@ cerrarModal()
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmitEdit}>
+          <Form.Group className="mb-3" controlId="FormEditar.ControlInput2">
+              <Form.Label>codigo</Form.Label>
+              <Form.Control
+              
+                type="number"    
+                name='codigo'
+                value={formDataEdit.codigo}
+                onChange={handleChangeEdit}
+                
+              />
+            </Form.Group>
 
             <Form.Group className="mb-3" controlId="FormEditar.ControlInput1">
               <Form.Label>Nombre</Form.Label>

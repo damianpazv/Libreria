@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-//import pruebaApi from '../api/prueba';
 import Swal from 'sweetalert2'
+import sigecoApi from '../api/sigecoAPI';
 
 export const ModalAgregarProducto = ({cerrarModal}) => {
 
@@ -13,6 +13,7 @@ export const ModalAgregarProducto = ({cerrarModal}) => {
   const cerrarModal1=() => setModalAbierto(false)
 
   const  [formData,setFormData ]= useState({
+    codigo:"",
     nombre:"",
     precio: "",
     cantidad:"",
@@ -27,11 +28,11 @@ const handleChange = (e) => {
 
   const AgregarProducto = (e) => {
     e.preventDefault();
-     const {_id,nombre,precio,cantidad}=formData
+     const {codigo,nombre,precio,cantidad}=formData
 
     //validaciones....
 
-    if(nombre.trim()===""|| precio===""|| cantidad==="")
+    if(nombre.trim()===""|| precio===""|| cantidad==="" || codigo==="")
 {
     Swal.fire({
         icon: 'error',
@@ -66,36 +67,36 @@ else if(cantidad<0)
       return; 
 }
 
-console.log(formData)
+AgregarProductoDB(codigo,nombre,precio,cantidad)
 
-Swal.fire({
-  position: "center",
-  icon: "success",
-  title: "Producto agregado con éxito",
-  showConfirmButton: false,
-  timer: 1500
-});
+
 
 cerrarModal()
-// AgregarProductsDB(nombre,precio,cantidad)
+
   
     
     };
 
-// const AgregarProductsDB= async (nombre,precio,cantidad) =>
-// {
+const AgregarProductoDB= async (codigo,nombre,precio,cantidad) =>
+{
 
-//     try{
-//         const resp=await pruebaApi.post("/admin/new",{nombre,precio,cantidad});
+    try{
+        const resp=await sigecoApi.post("/api/productos",{codigo,nombre,precio,cantidad});
         
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Producto agregado con éxito",
+          showConfirmButton: false,
+          timer: 1500
+        });
+    }
 
-//     }
-
-//     catch(error)
-//     {
-//     console.log(error);
-//     }
-// }
+    catch(error)
+    {
+    console.log(error);
+    }
+}
 
 
   return (
@@ -108,6 +109,18 @@ cerrarModal()
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={AgregarProducto}>
+          <Form.Group className="mb-3" controlId="FormEditar.ControlInput2">
+              <Form.Label>codigo</Form.Label>
+              <Form.Control
+              
+                type="number"    
+                name='codigo'
+                onChange={handleChange}
+                value={formData.codigo}
+               
+                
+              />
+            </Form.Group>
 
             <Form.Group className="mb-3" controlId="FormEditar.ControlInput1">
               <Form.Label>Nombre</Form.Label>
