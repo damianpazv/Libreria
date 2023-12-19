@@ -10,6 +10,8 @@ import { NavbarMain } from './NavbarMain';
 import { ModalEditarProducto } from './ModalEditarProducto';
 import { ModalAgregarProducto } from './ModalAgregarProducto';
 import sigecoApi from '../api/sigecoAPI';
+import Swal from 'sweetalert2'
+
 
 export const Productos = () => {
 
@@ -33,13 +35,13 @@ const cerrarModal=() => setModalAbierto(false)
 const abrirModalAP = () => setModalAbiertoAP(true);
 const cerrarModalAP=() => setModalAbiertoAP(false)
 
-    // const productos = [
-    //     { _id: 1, nombre: 'lapicera', precio: 10.99, cantidad: 20 },
-    //     { _id: 2, nombre: 'cartuchera', precio: 25.50, cantidad: 15 },
-    //     { _id: 3, nombre: 'fibron', precio: 5.99, cantidad: 30 },
-    //     { _id: 4, nombre: 'mapa politico', precio: 15.75, cantidad: 25 },
-    //     { _id: 5, nombre: 'pegamento', precio: 8.49, cantidad: 18 },
-    //   ];
+    const productosFake = [
+        { codigo: 1, nombre: 'lapicera', precio: 10.99, cantidad: 20 },
+        { codigo: 2, nombre: 'cartuchera', precio: 25.50, cantidad: 15 },
+        { codigo: 3, nombre: 'fibron', precio: 5.99, cantidad: 30 },
+        { codigo: 4, nombre: 'mapa politico', precio: 15.75, cantidad: 25 },
+        { codigo: 5, nombre: 'pegamento', precio: 8.49, cantidad: 18 },
+      ];
 
     const productosDB= async()=>{ try {
       const resp = await sigecoApi.get("/api/productos")
@@ -47,6 +49,7 @@ const cerrarModalAP=() => setModalAbiertoAP(false)
       
     } catch (error) {
       console.log(error);
+      setproductosMostrados(productosFake);
     }
   }
 
@@ -58,7 +61,25 @@ const cerrarModalAP=() => setModalAbiertoAP(false)
       
       const eliminarProductoDB = async(id) => {
         try{
-          const resp=await sigecoApi.delete(`/api/productos/${id}`);
+          Swal.fire({
+            title: "Está seguro que desea eliminar el producto?",
+            
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            
+          }).then (async(result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              const resp=await sigecoApi.delete(`/api/productos/${id}`);
+              Swal.fire("producto elminado", "", "success");
+            } else if (result.isDenied) {
+              Swal.fire("Operación cancelada", "", "info");
+            }
+          });
+
+
+
+   
        
           
       }
