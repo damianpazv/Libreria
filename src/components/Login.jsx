@@ -54,42 +54,42 @@ CheckLoginDB(nombre,password);
     
     };
 
-const CheckLoginDB= async (nombre,password) =>
-{
+// const CheckLoginDB= async (nombre,password) =>
+// {
 
-    try{
-        const resp=await sigecoApi.post("/api/usuarios/login",{nombre,password});
-        console.log(resp.data.ok)
+//     try{
+//         const resp=await sigecoApi.post("/api/usuarios/login",{nombre,password});
+//         console.log(resp.data.ok)
 
-       if(resp.data.ok ) 
-       { 
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: `Bienvenido ${nombre}`, 
-            showConfirmButton: false,
-            timer: 1500
-          });
+//        if(resp.data.ok ) 
+//        { 
+//         Swal.fire({
+//             position: "center",
+//             icon: "success",
+//             title: `Bienvenido ${nombre}`, 
+//             showConfirmButton: false,
+//             timer: 1500
+//           });
 
-          navigate("/home");
-       } 
-       else{
-        Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "alguno de los datos es incorrecto",
-            showConfirmButton: false,
-            timer: 1500
-          });
-       }
+//           navigate("/home");
+//        } 
+//        else{
+//         Swal.fire({
+//             position: "center",
+//             icon: "error",
+//             title: "alguno de los datos es incorrecto",
+//             showConfirmButton: false,
+//             timer: 1500
+//           });
+//        }
   
-    }
+//     }
 
-    catch(error)
-    {
-    console.log(error);
-    }
-}
+//     catch(error)
+//     {
+//     console.log(error);
+//     }
+// }
 
 
   return (

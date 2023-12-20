@@ -27,6 +27,7 @@ export const Productos = () => {
 })
 
 
+
 const [searchTerm, setSearchTerm] = useState('');
 
 const abrirModal = () => setModalAbierto(true);
@@ -34,6 +35,20 @@ const cerrarModal=() => setModalAbierto(false)
 
 const abrirModalAP = () => setModalAbiertoAP(true);
 const cerrarModalAP=() => setModalAbiertoAP(false)
+
+
+useEffect(() => {
+ 
+  productosDB();
+}, []);
+
+useEffect(() => {
+  // Verificar si el modal se ha cerrado
+  if (!modalAbierto) {
+    // Realizar acciones de reseteo aquí
+    productosDB(); // Resetea cualquier otro estado según sea necesario
+  }
+}, [modalAbierto,modalAbiertoAP]);
 
     const productosFake = [
         { codigo: 1, nombre: 'lapicera', precio: 10.99, cantidad: 20 },

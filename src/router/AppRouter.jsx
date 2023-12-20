@@ -15,10 +15,10 @@ export const AppRouter = () => {
 
 <Routes>
 
-<Route  path='/'  element={ <Login />   } />
+{/* <Route  path='/'  element={ <Login />   } /> */}
 <Route  path='/productos'  element={ <Productos />   } />
 <Route  path='/ventas'  element={ <Ventas />   } />
-<Route  path='/home'  element={ <Home />   } />
+<Route  path='/'  element={ <Home />   } />
 
 </Routes>
 </BrowserRouter>

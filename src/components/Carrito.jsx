@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,6 +8,8 @@ import { ModalCobrar } from '../components/ModalCobrar';
 import  { useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import sigecoApi from '../api/sigecoAPI';
+
+
 
 export const Carrito = () => {
 
@@ -20,7 +22,21 @@ const [searchTerm, setSearchTerm] = useState('');
      
   const abrirModal = () => setModalAbierto(true);
   const cerrarModal=() => setModalAbierto(false)
+
+  useEffect(() => {
+    // Verificar si el modal se ha cerrado
+    if (!modalAbierto) {
+      // Realizar acciones de reseteo aquí
+      setCarrito([]); // Resetea cualquier otro estado según sea necesario
+    }
+  }, [modalAbierto]);
   
+  useEffect(() => {
+ 
+    productosDB();
+  }, []);
+
+
   const productosDB= async()=>{ try {
     const resp = await sigecoApi.get("/api/productos")
     setProductos(resp.data.productos);
@@ -49,7 +65,7 @@ const [searchTerm, setSearchTerm] = useState('');
      const handleSearch = (event) => {
         if (event.key === 'Enter')
         {
-          productosDB();
+          
           setSearchTerm(event.target.value);
           const productoFiltrado = productos.filter(
             (product) =>
