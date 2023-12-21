@@ -53,7 +53,7 @@ const [searchTerm, setSearchTerm] = useState('');
   //   { _id: '55555', nombre: 'Set de Lápices de Colores', precio: 12.49, cantidad: 30 },
   // ];
 
-      const subtotal = carrito.reduce((acumulador, producto) => acumulador + producto.precio * producto.cantidad, 0);
+      const subtotal = carrito.reduce((acumulador, producto) => acumulador + producto.precio * producto.cantidadCompra, 0);
       const total=subtotal-subtotal*descuentoSeleccionado/100;
 
       const handleChange = (event) => {
@@ -73,7 +73,7 @@ const [searchTerm, setSearchTerm] = useState('');
               product.codigo.toString().includes(searchTerm)
           );
           console.log(productoFiltrado)
-          productoFiltrado[0].cantidad=1;
+          productoFiltrado[0].cantidadCompra=1;
           productoFiltrado[0].importe= productoFiltrado[0].precio;
          
           setCarrito((prevCarrito) => [...prevCarrito,...productoFiltrado]);
@@ -90,12 +90,12 @@ const [searchTerm, setSearchTerm] = useState('');
         
         const nuevoCarrito = carrito.map(producto => {
           if (producto._id === id) {
-            const nuevaCantidad=producto.cantidad +1;
+            const nuevaCantidad=producto.cantidadCompra +1;
             const nuevoImporte=  nuevaCantidad*producto.precio;
             const importeLimit=parseFloat(nuevoImporte.toFixed(2));
              
             
-            return { ...producto, cantidad: nuevaCantidad, importe:importeLimit }
+            return { ...producto, cantidadCompra: nuevaCantidad, importe:importeLimit }
             ;
           }
           return producto
@@ -115,12 +115,12 @@ const [searchTerm, setSearchTerm] = useState('');
         
       const nuevoCarrito = carrito.map(producto => {
         if (producto._id === id) {
-          const nuevaCantidad=producto.cantidad -1;
+          const nuevaCantidad=producto.cantidadCompra -1;
           const nuevoImporte=nuevaCantidad*producto.precio;
           const importeLimit=parseFloat(nuevoImporte.toFixed(2));
            
           
-          return { ...producto, cantidad: nuevaCantidad ,importe:importeLimit}
+          return { ...producto, cantidadCompra: nuevaCantidad ,importe:importeLimit}
           ;
         }
         return producto
@@ -162,7 +162,7 @@ return nuevoCarrito;
         <Col>
         <input className='mb-2'
         type="text"
-        placeholder="Buscar por nombre o id"
+        placeholder="Buscar por nombre o codigo"
         value={searchTerm}
         onChange={handleSearch}
         onKeyDown={handleSearch}/>
@@ -194,7 +194,7 @@ return nuevoCarrito;
             <td>{producto.codigo}</td>
             <td>{producto.nombre}</td>
             <td>{producto.precio}</td>
-            <td><Button className='me-3 btn btn-block' onClick={()=> disminuirCantidad(producto._id)} variant='info'>-</Button > {producto.cantidad} <Button className='ms-3 btn btn-block' onClick={()=> aumentarCantidad(producto._id)} variant='info'>+</Button > 
+            <td><Button className='me-3 btn btn-block' onClick={()=> disminuirCantidad(producto._id)} variant='info'>-</Button > {producto.cantidadCompra} <Button className='ms-3 btn btn-block' onClick={()=> aumentarCantidad(producto._id)} variant='info'>+</Button > 
            
             </td>
             <td>{producto.importe}</td>

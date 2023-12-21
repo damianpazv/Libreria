@@ -13,6 +13,7 @@ export const ModalCobrar = ({ cerrarModal,Total,productos }) => {
 
   const [pagoCliente, setpagoCliente] = useState(0);
 
+
 const crearVenta=()=>{
   const productosConCantidad = productos.map(producto => ({
     nombre: producto.nombre,
@@ -23,7 +24,7 @@ console.log(venta);
 
 AgregarVentaDB(venta)
 
-
+actualizarStock();
 
 cerrarModal();
 
@@ -50,6 +51,56 @@ const AgregarVentaDB= async (venta) =>
     }
 }
 
+
+const actualizarStock=()=>{
+
+  
+    const productosStock = productos.map((producto) => {
+    
+      const nuevaCantidad=producto.cantidad - producto.cantidadCompra;
+     
+       
+      
+      return { ...producto, cantidad: nuevaCantidad }
+      ;
+    
+    
+    
+})
+
+
+productosStock.map(async(producto)=>{
+
+  try {
+
+    const resp = await sigecoApi.put("/api/productos", {
+      _id: producto._id,
+      cantidad: producto.cantidad,
+    });
+    
+  } catch (error) {
+    console.error(error);
+  }
+
+
+
+
+
+})
+
+    
+  
+  
+
+        
+ 
+
+
+
+
+
+}
+
 const handleChange = (event) => {
   let valorSeleccionado =parseFloat(event.target.value,10) ;
   setpagoCliente(valorSeleccionado);
@@ -67,8 +118,8 @@ const handleChange = (event) => {
        
         <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"  onChange={handleChange} value={pagoCliente}>
-        <Form.Label> pagó con : $ </Form.Label>
-        <Form.Control type="number" placeholder="100" />
+        <Form.Label > pagó con : $ </Form.Label>
+        <Form.Control type="number" placeholder="100" defaultValue={Total}/>
       </Form.Group>
     </Form>
 

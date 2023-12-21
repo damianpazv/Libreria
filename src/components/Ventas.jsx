@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import  { useState } from 'react'
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { NavbarMain } from './NavbarMain';
 import sigecoApi from '../api/sigecoAPI';
 import Swal from 'sweetalert2';
@@ -21,7 +21,14 @@ export const Ventas = () => {
   useEffect(() => {
     // Esto se ejecutará después de que se haya actualizado ventasMostradas
     sumaTotal();
+    
   }, [ventasMostradas]); 
+
+  const fecha=new Date();
+  const dia = fecha.getDate();
+  const mes = fecha.getMonth() + 1; 
+  const anio = fecha.getFullYear(); 
+  const diaDeHoy=dia+"/"+mes+"/"+anio;
   
 const ventasDB= async()=>{ try {
       const resp = await sigecoApi.get("/api/ventas")
@@ -88,6 +95,20 @@ const handleSearch = (event) => {
        
       };
 
+const handleSearchToday = () => {
+
+           
+
+          const ventasFiltradas = ventasMostradas.filter(
+            (venta) =>
+              venta.fecha.toLowerCase().includes(diaDeHoy)               
+          );
+          
+setventasMostradas(ventasFiltradas);
+sumaTotal();
+     
+      };
+      
 const sumaTotal=()=>{
     const cantidad=  ventasMostradas.length;
     const suma = ventasMostradas.reduce((acumulador, venta) => acumulador + venta.total, 0);
@@ -95,24 +116,50 @@ const sumaTotal=()=>{
     setsumaVentas(suma);
      };
      
-     
+
      return (
     <div>
      
 <NavbarMain/>
-<Container className='m-4'>
-<h2 className='text-center'>VENTAS</h2>
-<h5>Cantidad de ventas:{cantidadVentas}</h5>
-<h5>Recaudacion total:{sumaVentas}</h5>
+<Container fluid="md" className='mt-3'>
+  <Row className='justify-content-md-between'>
+  <Col className='mt-2'>
+  <Table  bordered hover size="sm" variant='primary'>
+      <thead className="text-center">
+        <tr>
+          <th>Cantidad de Ventas</th>
+          <th>Recaudación Total</th>
+        </tr>
+      </thead>
+      <tbody className="text-center">
+        <tr>
+          <td><h5>{cantidadVentas}</h5></td>
+          <td><h5>${sumaVentas}</h5></td>
+        </tr>
+      </tbody>
+    </Table>
+
+</Col>
+<Col xs={3} className='mt-4'>
+<h2 className='text-center'><strong>VENTAS</strong></h2>
+</Col>
+<Col md="auto"className='mt-4'>
 <Button className='ms-2' onClick={()=>ventasDB()}>Todas las ventas</Button>
+<Button className='ms-2' onClick={()=>handleSearchToday()}>Hoy</Button>
 <input className='ms-2'
         type="text"
         placeholder="Buscar por fecha"
         value={searchTerm}
         onChange={handleSearch}
         onKeyDown={handleSearch}/>
+</Col>
 
-<Table striped bordered hover className='m-3'>
+  </Row>
+
+ 
+
+<Row>
+<Table striped bordered hover className='mt-3'>
   <thead>
     <tr>
       <th>#</th>
@@ -129,8 +176,8 @@ const sumaTotal=()=>{
           <td>{index + 1}</td>
           <td>
             <h6>Productos:</h6>
-            {venta.detalle.map((item) => (
-              <p>
+            {venta.detalle.map((item,index) => (
+              <p key={index}>
                 {item.nombre}, <b>Cant:</b> {item.cantidad}
               </p>
             ))}
@@ -147,6 +194,11 @@ const sumaTotal=()=>{
     })}
   </tbody>
 </Table>
+
+</Row>
+
+
+
 
 
 </Container>
