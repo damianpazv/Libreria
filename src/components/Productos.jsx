@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 //import { useNavigate } from 'react-router';
 import  { useState } from 'react'
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { NavbarMain } from './NavbarMain';
 import { ModalEditarProducto } from './ModalEditarProducto';
 import { ModalAgregarProducto } from './ModalAgregarProducto';
@@ -133,19 +133,53 @@ useEffect(() => {
     <div>
      
 <NavbarMain/>
-<Container className='m-4'>
-<h2 className='text-center'>PRODUCTOS</h2>
+<Container  fluid="md" className='mt-3'>
 
+
+<Row className='justify-content-md-between'>
+<Col className='mt-2'>
+<Table  bordered hover size="sm" variant='primary'>
+      <thead className="text-center">
+        <tr>
+          <th>Cantidad de productos</th>
+          
+        </tr>
+      </thead>
+      <tbody className="text-center">
+        <tr>
+          <td><h5>ghghghgh</h5></td>
+         
+        </tr>
+      </tbody>
+    </Table>
+    <Button className='ms-4' onClick={()=>productosDB()}>Todos los Productos</Button>
+    <Button className='ms-2' onClick={()=>productosDB()}>Todos los Productos</Button>
+</Col>
+
+
+
+<Col xs={3} className='mt-4'>
+<h2 className='text-center'><strong>PRODUCTOS</strong></h2>
+</Col>
+<Col className='mt-4'>
 <Button onClick={()=>abrirModalAP()}>Agregar Producto</Button>
-<Button className='ms-2' onClick={()=>productosDB()}>Todos los Productos</Button>
-<input className='ms-2'
+
+<input className='mt-2 ms-3'
         type="text"
-        placeholder="Buscar por nombre o id"
+        placeholder="Buscar por nombre o cod."
         value={searchTerm}
         onChange={handleSearch}
         onKeyDown={handleSearch}/>
+</Col>
 
-<Table striped bordered hover className='m-3'>
+</Row>
+
+
+
+<Row>
+<Col>
+
+<Table striped bordered hover className='mt-3'>
       <thead>
         <tr>
           <th>Codigo de barras</th>
@@ -173,6 +207,19 @@ return(
 })}
     </tbody>
     </Table>
+
+
+</Col>
+
+</Row>
+
+
+
+
+
+
+
+
 
 
 </Container>
