@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -27,7 +27,9 @@ const [searchTerm, setSearchTerm] = useState('');
     // Verificar si el modal se ha cerrado
     if (!modalAbierto) {
       // Realizar acciones de reseteo aquí
-      setCarrito([]); // Resetea cualquier otro estado según sea necesario
+      setCarrito([]);
+      setSearchTerm(""); 
+      inputRef.current.focus();// Resetea cualquier otro estado según sea necesario
     }
   }, [modalAbierto]);
   
@@ -36,6 +38,7 @@ const [searchTerm, setSearchTerm] = useState('');
     productosDB();
   }, []);
 
+  const inputRef = useRef(null);
 
   const productosDB= async()=>{ try {
     const resp = await sigecoApi.get("/api/productos")
@@ -77,6 +80,7 @@ const [searchTerm, setSearchTerm] = useState('');
           productoFiltrado[0].importe= productoFiltrado[0].precio;
          
           setCarrito((prevCarrito) => [...prevCarrito,...productoFiltrado]);
+          setSearchTerm("");
          
 
         }
@@ -160,9 +164,9 @@ return nuevoCarrito;
     <Container className='mt-3' >
       <Row>
         <Col>
-        <input className='mb-2'
+        <input ref={inputRef} autoFocus className='mb-2'
         type="text"
-        placeholder="Buscar por nombre o codigo"
+        placeholder="Buscar por nombre o cod."
         value={searchTerm}
         onChange={handleSearch}
         onKeyDown={handleSearch}/>

@@ -119,7 +119,7 @@ const handleChange = (event) => {
         <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"  onChange={handleChange} value={pagoCliente}>
         <Form.Label > pagó con : $ </Form.Label>
-        <Form.Control type="number" placeholder="100" defaultValue={Total}/>
+        <Form.Control type="number" placeholder="100" />
       </Form.Group>
     </Form>
 

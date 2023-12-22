@@ -6,6 +6,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { NavbarMain } from './NavbarMain';
 import sigecoApi from '../api/sigecoAPI';
 import Swal from 'sweetalert2';
+import '../home/Home.css';
 
 export const Ventas = () => {
 
@@ -45,6 +46,7 @@ const eliminarVentaDB = async(id) => {
             title: "Está seguro que desea eliminar esta venta?",
             
             showCancelButton: true,
+            cancelButtonText:"Cancelar",
             confirmButtonText: "Eliminar",
             
           }).then (async(result) => {
@@ -118,7 +120,7 @@ const sumaTotal=()=>{
      
 
      return (
-    <div>
+    <div className='cuerpo'>
      
 <NavbarMain/>
 <Container fluid="md" className='mt-3'>
@@ -145,7 +147,7 @@ const sumaTotal=()=>{
 </Col>
 <Col md="auto"className='mt-4'>
 <Button className='ms-2' onClick={()=>ventasDB()}>Todas las ventas</Button>
-<Button className='ms-2' onClick={()=>handleSearchToday()}>Hoy</Button>
+<Button className='ms-2'variant='warning' onClick={()=>handleSearchToday()}>Hoy</Button>
 <input className='ms-2'
         type="text"
         placeholder="Buscar por fecha"

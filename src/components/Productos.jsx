@@ -11,7 +11,7 @@ import { ModalEditarProducto } from './ModalEditarProducto';
 import { ModalAgregarProducto } from './ModalAgregarProducto';
 import sigecoApi from '../api/sigecoAPI';
 import Swal from 'sweetalert2'
-
+import '../home/Home.css';
 
 export const Productos = () => {
 
@@ -80,6 +80,7 @@ useEffect(() => {
             title: "Está seguro que desea eliminar el producto?",
             
             showCancelButton: true,
+            cancelButtonText:"Cancelar",
             confirmButtonText: "Eliminar",
             
           }).then (async(result) => {
@@ -129,8 +130,20 @@ useEffect(() => {
       };
 
      
+const pocoStock=()=>{
+
+const productosPocoStock=productosMostrados.filter(
+  (product) =>
+    product.cantidad<=20
+    
+);
+setproductosMostrados(productosPocoStock);
+
+}
+
+
       return (
-    <div>
+    <div className='cuerpo'>
      
 <NavbarMain/>
 <Container  fluid="md" className='mt-3'>
@@ -147,13 +160,13 @@ useEffect(() => {
       </thead>
       <tbody className="text-center">
         <tr>
-          <td><h5>ghghghgh</h5></td>
+          <td><h5>{productosMostrados.length}</h5></td>
          
         </tr>
       </tbody>
     </Table>
-    <Button className='ms-4' onClick={()=>productosDB()}>Todos los Productos</Button>
-    <Button className='ms-2' onClick={()=>productosDB()}>Todos los Productos</Button>
+    <Button className='ms-5' onClick={()=>productosDB()}>Todos los Productos</Button>
+    <Button className='ms-3' variant='warning' onClick={()=>pocoStock()}> Poco stock</Button>
 </Col>
 
 
@@ -185,7 +198,7 @@ useEffect(() => {
           <th>Codigo de barras</th>
           <th>Nombre</th>
           <th>Precio</th>
-          <th>cantidad</th>
+          <th>Cantidad</th>
           <th>Eliminar</th>
           <th>Editar</th>
         </tr>
